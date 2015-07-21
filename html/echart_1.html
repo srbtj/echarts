@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>ECharts Demo</title>
+    <style>
+        #main{ height: 300px; margin: 50px auto; background: #eee; width: 800px;}
+    </style>
+</head>
+<body>
+<div id="main"></div>
+<!-- 包含AMD加载器的echarts主文件 -->
+<script src="../js/dist/echarts.js"></script>
+<script>
+    /** 获得AMD环境
+     *  目的 ： 动态加载使用 echarts
+     * **/
+
+
+    /**
+     *   模块化单体文件引入ECharts步骤：
+     *      1. 为ECharts准备一个具备大小的DOM
+     *      2. 通过script标签引入echarts.js主体文件
+     *      3. 为模块加载器配置echarts路径，从当前页面链接到echarts.js所在目录
+     *      4. 动态加载echarts及所需图表，然后在回调函数中使用;
+     */
+    require.config({
+        paths:{
+            echarts:'../js/dist'
+        }
+    });
+
+    require([
+            'echarts',
+            'echarts/chart/bar',
+            'echarts/chart/line'
+    ],function(ec){
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = ec.init(document.getElementById('main'));
+
+        var option = {
+            tooltip: {
+                show: true
+            },
+            legend: {
+                data:['阅读数']
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    "name":"已阅读",
+                    "type":"bar",
+                    "data":[5, 20, 40, 10, 10, 20, 15, 18, 30, 125, 11, 12]
+                }
+            ]
+        };
+
+        // 为echarts对象加载数据
+        myChart.setOption(option);
+    });
+</script>
+</body>
+</html>
